@@ -1,7 +1,7 @@
 ---
 icon: hand-wave
-cover: https://gitbookio.github.io/onboarding-template-images/header.png
-coverY: 0
+cover: .gitbook/assets/logo-uap.png
+coverY: 20.685714285714283
 layout:
   cover:
     visible: true

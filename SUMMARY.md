@@ -1,6 +1,6 @@
 # Table of contents
 
-* [Welcome](README.md)
+* [UP Assistants](README.md)
 
 ## Getting Started
 

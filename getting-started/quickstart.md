@@ -1,23 +1,36 @@
 ---
 icon: bullseye-arrow
+cover: ../.gitbook/assets/Screenshot 2025-02-03 at 20.09.23.png
+coverY: 0
+layout:
+  cover:
+    visible: true
+    size: hero
+  title:
+    visible: true
+  description:
+    visible: true
+  tableOfContents:
+    visible: true
+  outline:
+    visible: true
+  pagination:
+    visible: true
 ---
 
 # Quickstart
 
-<figure><img src="https://gitbookio.github.io/onboarding-template-images/quickstart-hero.png" alt=""><figcaption></figcaption></figure>
+## upassistants.com
 
-Beautiful documentation starts with the content you create — and GitBook makes it easy to get started with any pre-existing content.
+To get started, head to [https://upassistants.com/](https://upassistants.com/) to setup your UP profile for using UP Assistants
 
-{% hint style="info" %}
-Want to learn about writing content from scratch? Head to the [Basics](https://github.com/GitbookIO/onboarding-template/blob/main/getting-started/broken-reference/README.md) section to learn more.
-{% endhint %}
 
-### Import
 
-GitBook supports importing content from many popular writing tools and formats. If your content already exists, you can upload a file or group of files to be imported.
+## Catalog
 
-<div data-full-width="false"><figure><img src="https://gitbookio.github.io/onboarding-template-images/quickstart-import.png" alt=""><figcaption></figcaption></figure></div>
+We have a range of UP Assistants that can automate various tasks on your UP profile. Browse our catalog for both testnet and mainnet assistants:
 
-### Sync a repository
 
-GitBook also allows you to set up a bi-directional sync with an existing repository on GitHub or GitLab. Setting up Git Sync allows you and your team to write content in GitBook or in code, and never have to worry about your content becoming out of sync.
+
+* Mainnet: [https://upassistants.com/lukso/catalog](https://upassistants.com/lukso/catalog)
+* Testnet: [https://upassistants.com/lukso-testnet/catalog](https://upassistants.com/lukso-testnet/catalog)

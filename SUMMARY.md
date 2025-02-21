@@ -1,6 +1,6 @@
 # Table of contents
 
-* [UP Assistants](README.md)
+* [The Universal Assistants Protocol: Digital Assistants For Everyone](README.md)
 
 ## Getting Started
 

@@ -6,7 +6,7 @@
 
 * [Quickstart](getting-started/quickstart.md)
 * [Catalog](getting-started/catalog.md)
-* [Profile page](getting-started/profile-page.md)
+* [Global Settings](getting-started/global-settings.md)
 
 ## Developers
 

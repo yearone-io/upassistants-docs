@@ -15,7 +15,7 @@
 
 * [Overview](developers/overview.md)
 * [Protocol Architecture](developers/protocol-architecture.md)
+* [Transaction flow](developers/transaction-flow.md)
 * [Creating assistants](developers/creating-assistants.md)
 * [Deployment](developers/deployment.md)
 * [Future proposal: Screener Assistants](developers/future-proposal-screener-assistants.md)
-* [Transaction flow](developers/transaction-flow.md)

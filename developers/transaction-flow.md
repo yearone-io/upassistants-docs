@@ -2,6 +2,8 @@
 
 ## Detailed Universal Assistant Protocol Transaction Flow
 
+***
+
 ```mermaid
 sequenceDiagram
     participant User
@@ -49,9 +51,8 @@ sequenceDiagram
     end
     URDuap->>UP: Return final action
     UP->>User: Transaction processed
-```
 
-***
+```
 
 #### **Flow Explanation**
 

@@ -9,6 +9,7 @@
 * [Supported Blockchains](getting-started/supported-blockchains.md)
 * [Catalog page](getting-started/catalog-page.md)
 * [Global Settings page](getting-started/global-settings-page.md)
+* [Wallets](getting-started/wallets.md)
 
 ## Developers
 

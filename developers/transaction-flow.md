@@ -75,6 +75,3 @@ sequenceDiagram
 
 ***
 
-#### **(Future) Screener Assistants**
-
-While this current version only supports **Executive Assistants**, a future release will introduce **Screener Assistants**. These will act as gatekeepers (similar to the previously discussed “Filters”), determining whether a transaction should proceed to the Executive Assistants, be modified, or be blocked. The final architecture for Screener Assistants is **TBD**.

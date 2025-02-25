@@ -5,8 +5,9 @@
 ## Getting Started
 
 * [Quickstart](getting-started/quickstart.md)
-* [Catalog](getting-started/catalog.md)
-* [Global Settings](getting-started/global-settings.md)
+* [UP Assistant Usecases](getting-started/up-assistant-usecases.md)
+* [Catalog page](getting-started/catalog-page.md)
+* [Global Settings page](getting-started/global-settings-page.md)
 
 ## Developers
 

@@ -14,7 +14,7 @@
 ## Developers
 
 * [Overview](developers/overview.md)
-* [Architecture](developers/architecture.md)
+* [Protocol Architecture](developers/protocol-architecture.md)
 * [Creating assistants](developers/creating-assistants.md)
 * [Universal Assistant Protocol](developers/universal-assistant-protocol/README.md)
   * [Universal Receiver Delegate](developers/universal-assistant-protocol/universal-receiver-delegate.md)

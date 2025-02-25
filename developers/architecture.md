@@ -18,53 +18,50 @@ end
 
 Tokens[Digital Asset Contracts - LSP7/LSP8 or Other Payloads] -->|Send Transactions| UP
 
-UP -->|Delegates to| URDuap[UAP - Universal Receiver Delegate]
+UP -->|Delegates to| URDuap[Universal Receiver Delegate - Universal Assistant Protocol]
 
 URDuap -->|Accesses Configurations from| ERC725Y
 
-URDuap -->|Evaluates| Filters
+URDuap -->|Invokes| ExecutiveAssistants
 
-URDuap -->|Invokes| Assistants
+ExecutiveAssistants -->|Modify| Value_and_Data[Value and Data]
 
-Assistants -->|Modify| Value_and_Data[Value and Data]
-
-Assistants -->|Interact with| ThirdParties[Third Parties, ex: Vault]
+ExecutiveAssistants -->|Interact with| ThirdParties[Third Parties, ex: Vault]
 
 URDuap -->|Defaults to| LSP1
-
-%% Style Definitions
-classDef uapClass fill:#f9f,stroke:#333,stroke-width:2px;
-
-%% Apply Styles to UAP Components
-class URDuap uapClass
-class Filters uapClass
-class Assistants uapClass
-
 ```
 
 ### Detailed Component Descriptions and Interactions
 
-#### 1. Universal Profile (UP) - LSP0
+
+
+#### 1. LUKSO Universal Profile (UP) - LSP0
+
+
 
 **Components:**
 
-* **ERC725X**: Allows for executing generic function calls.
+* **ERC725X**: Allows executing generic function calls.
 * **ERC725Y**: Provides a key-value data store for arbitrary data.
 * **Universal Receiver Delegate (LSP1)**: Handles incoming transactions and messages.
 
 **Role:**
 
-* Acts as the user's on-chain identity.
+* Acts as the user’s on-chain identity.
 * Stores configurations and preferences via the ERC725Y key-value store.
-* Delegates transaction handling to the Universal Receiver Delegate.
+* Delegates transaction handling to a Universal Receiver Delegate.
 
 **Interactions:**
 
-* **Receives transactions** from Digital Asset Contracts (LSP7/LSP8).
-* **Delegates incoming transactions** to the URDuap.
+* **Receives transactions** from digital asset contracts (e.g., LSP7 or LSP8).
+* **Delegates incoming transactions** to the Universal Assistant Protocol's Universal Receiver Delegate (`URDuap`).
 * **Access controlled** by the Key Manager (KM).
 
+***
+
 #### 2. Key Manager (KM) - LSP6
+
+
 
 **Role:**
 
@@ -72,141 +69,139 @@ class Assistants uapClass
 
 **Responsibilities:**
 
-* Controls who can modify the UP's data and configurations.
+* Determines who can modify the UP’s data and configurations.
 * Ensures only authorized entities can interact with sensitive functions.
 
 **Interactions:**
 
-* Manages access to the UP.
-* Enforces permission checks for actions on ERC725X and ERC725Y.
+* Manages access to the UP (ERC725X, ERC725Y).
+* Enforces permission checks for data updates or contract calls.
+
+***
 
 #### 3. Digital Asset Contracts - LSP7/LSP8
 
+
+
 **Role:**
 
-* Represent fungible (LSP7) and non-fungible (LSP8) tokens within the LUKSO ecosystem.
+* Represent fungible (LSP7) or non-fungible (LSP8) tokens within the LUKSO ecosystem.
 
 **Interactions:**
 
-* Send transactions to the UP.
+* Send transactions (e.g., token transfers) to the UP.
 * Trigger the Universal Receiver Delegate upon asset transfer or interaction.
 
-#### 4. Universal Receiver Delegate for UAP (URDuap)
+***
+
+#### 4. Universal Receiver Delegate for Universal Assistant Protocol (URDuap)
+
+
 
 **Role:**
 
-* The UAP's implementation of the Universal Receiver Delegate.
-* Replaces or extends the default `LSP1` delegate in the `UP`.
+* The Universal Assistant Protocol’s specialized Universal Receiver Delegate that handles incoming transactions.
 
 **Responsibilities:**
 
-* Handles incoming transactions based on `typeId`.
-* Accesses user configurations from `ERC725Y`.
-* Retrieves Assistants associated with the `typeId`.
-* For each Assistant, retrieves Filters associated with it.
-* Evaluates Filters to determine whether to invoke the Assistant.
-* Invokes Assistants that pass the filter evaluation.
-* Updates `value` and `data` based on Assistant's execution.
-* Defaults to standard `LSP1` behavior if no configurations are found or no Assistants are invoked.
+* Receives `typeId` and `data` from the UP.
+* Looks up any **Executive Assistants** configured under that `typeId`.
+* Calls each **Executive Assistant** in order, passing them the current `value` and `data`.
+* Executes the returned operations (on behalf of the UP) via `IERC725X.execute(...)`.
+* **Falls back** to the default LSP1 delegate behavior if no Assistants are found.
 
 **Interactions:**
 
-* **Delegated to by UP**: `UP` delegates transaction handling to `URDuap`.
-* **Accesses configurations from ERC725Y**: Reads user-defined Assistants and Filters.
-* **Evaluates Filters**: Determines eligibility of Assistants.
-* **Invokes Assistants**: Calls the `execute` function of eligible Assistants.
-* **Updates Value and Data**: Modifies transaction data based on Assistants' output.
-* **Defaults to `LSP1`**: Falls back to default behavior if no actions match.
+* **Delegated to by the UP**: Receives all inbound calls from the UP.
+* **Accesses ERC725Y**: Reads user-defined config for each `typeId`.
+* **Invokes Executive Assistants**: Calls their `execute(...)` function in sequence.
+* **Updates `value` and `data`**: Receives possibly updated values from each Assistant.
+* **Defaults to LSP1**: If no relevant Assistants are configured or none are invoked.
+
+***
 
 #### 5. ERC725Y Data Store
 
-**Role:**
 
-* Provides a key-value storage mechanism for the UP.
-
-**Responsibilities:**
-
-* Stores configurations, including mappings from `typeId` to Assistants.
-* Stores Filters associated with each Assistant.
-* Accessible by URDuap to retrieve necessary data.
-
-**Interactions:**
-
-* Accessed by URDuap for configurations.
-* Manages mappings such as:
-  * `UAPTypeConfig:<typeId>` → `AssistantAddresses[]`
-  * `UAPAssistantFilters:<assistantAddress>` → `FilterData[]`
-* Managed through ERC725Y interface with access control via KM.
-
-#### 6. Filters
 
 **Role:**
 
-* Define criteria to evaluate whether an Assistant should be invoked.
+* Key-value store within the UP for configuration and user preferences.
 
 **Responsibilities:**
 
-* Each Filter is associated with an Assistant.
-* Contains:
-  * `filterLogicAddress`: Address of the contract that performs the evaluation logic.
-  * `matchTarget`: Expected boolean result to decide Assistant invocation.
-  * `instructions`: Additional data required for evaluation.
-* Evaluated per Assistant to determine eligibility.
+* Maps `typeId` to an ordered list of **Executive Assistant** contract addresses.
+* May also store per-Assistant settings used when the Assistant is invoked.
+* Accessible by `URDuap` to retrieve necessary data.
 
 **Interactions:**
 
-* Evaluated by URDuap for each Assistant.
-* URDuap calls `evaluate` function on the `filterLogicAddress` with transaction data and `instructions`.
-* The result is compared with `matchTarget` to decide on Assistant invocation.
+* Queried by `URDuap` for the list of Assistants mapped to a given `typeId`.
+* Manages data keys such as:
+  * `UAPTypeConfig:<typeId>` → Encoded addresses of the Executive Assistants.
+  * `UAPExecutiveConfig:<assistantAddress>` → Custom assistant settings.
 
-#### 7. Assistants
+***
+
+#### 6. Executive Assistants
+
+
 
 **Role:**
 
-* Modular contracts performing specific actions upon invocation.
+* Modular contracts that implement specific logic to handle transactions.
 
 **Responsibilities:**
 
-* Implement an `execute` function to process transaction data.
-* Can modify `value` and `data` for subsequent processing.
-* May forward content to external entities (e.g., Vaults).
-* Return updated `value` and `data` to URDuap.
+* Must implement the `execute(...)` function (see `IExecutiveAssistant` in the code).
+* Process transaction data and optionally alter the `value` and `data` that flow to subsequent Assistants.
+* Return an operation to be executed (if needed) via `IERC725X.execute(...)`.
 
 **Interactions:**
 
-* Invoked by URDuap after filters pass.
-* Receive current `value` and `data` from URDuap.
-* Return updated `value` and `data`.
-* May interact with Third Parties.
+* Called in sequence by `URDuap`.
+* Receive the current `value` and `data`.
+* Return updates to `value` and `data`, plus instructions for an on-chain operation.
+* May interact with external contracts (e.g., Vaults, token registries, etc.).
 
-#### 8. Vault Contracts - LSP9
+***
+
+#### 7. (Planned) Screener Assistants
+
+
 
 **Role:**
 
-* Secure storage for assets managed by Assistants.
+* **Future Feature**:
+* Will intercept incoming transactions/data to decide if any Executive Assistants should be invoked or if the transaction should be rejected/modified beforehand.
 
 **Responsibilities:**
 
-* Hold assets redirected by Assistants (e.g., unwanted tokens).
-* Provide interfaces for users to access or manage stored assets.
+* (TBD) Could hold evaluation logic to allow or deny transaction flow.
+* Potentially attach additional instructions or modifications prior to any Executive Assistant call.
 
 **Interactions:**
 
-* Assistants interact with Vaults to store assets.
-* Ensure secure separation from the main UP.
+* (TBD) Will be triggered by `URDuap` before normal Executive Assistant invocation.
+* Will store their logic and configurations in the UP’s ERC725Y storage.
 
-#### 9. Default Universal Receiver Delegate (LSP1)
+> **Note**: The Screener Assistant architecture is still under development and is **not** included in this release.
+
+***
+
+#### 8. Default Universal Receiver Delegate (LSP1)
+
+
 
 **Role:**
 
-* The standard Universal Receiver Delegate implementation.
+* The standard fallback Universal Receiver Delegate in the UP.
 
 **Responsibilities:**
 
-* Handles incoming transactions in the default manner.
-* Provides basic processing when no user-defined actions apply.
+* Provides a default handling mechanism for incoming transactions.
+* Invoked by `URDuap` if no custom logic or Assistants are configured for a specific `typeId`.
 
 **Interactions:**
 
-* **`URDuap` Defaults to This Behavior**: If no applicable Assistants are found.
-* **Assistants May Not Invoke `LSP1` Directly**: Assistants handle specific actions independently.
+* Performs standard actions if no UAP-specific configuration is present.

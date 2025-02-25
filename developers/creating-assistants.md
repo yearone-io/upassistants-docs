@@ -1,11 +1,6 @@
----
-description: >-
-  The contracts/interfaces below can be found in the
-  universal-assistant-protocol repo
-  https://github.com/yearone-io/universal-assistant-protocol
----
-
 # Creating assistants
+
+The contracts/interfaces below can be found in the [universal-assistant-protocol](https://github.com/yearone-io/universal-assistant-protocol) repo.
 
 ### Creating and Integrating a New Executive Assistant
 
